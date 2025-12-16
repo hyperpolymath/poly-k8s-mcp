@@ -1,0 +1,8 @@
+{
+  "name": "poly-k8s-mcp",
+  "sources": [{"dir": "src", "subdirs": true}],
+  "package-specs": [{"module": "es6", "in-source": false}],
+  "suffix": ".res.js",
+  "bs-dependencies": [],
+  "warnings": {"error": "+101"}
+}

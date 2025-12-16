@@ -1,0 +1,97 @@
+= poly-k8s-mcp
+:toc:
+:toc-placement!:
+
+Unified MCP server for Kubernetes orchestration. Provides Model Context Protocol tools for managing Kubernetes clusters through kubectl, Helm, and Kustomize.
+
+toc::[]
+
+== Overview
+
+poly-k8s-mcp exposes Kubernetes management capabilities through the Model Context Protocol (MCP), enabling AI assistants and other MCP clients to interact with Kubernetes clusters programmatically.
+
+== Adapters
+
+=== kubectl (12 tools)
+Core Kubernetes CLI operations:
+
+* `kubectl_get` - Get resources (pods, deployments, services, etc.)
+* `kubectl_describe` - Show detailed resource information
+* `kubectl_logs` - View container logs
+* `kubectl_apply` - Apply manifests
+* `kubectl_delete` - Delete resources
+* `kubectl_exec` - Execute commands in containers
+* `kubectl_scale` - Scale deployments/replicasets
+* `kubectl_rollout` - Manage rollouts (status, history, undo, restart)
+* `kubectl_port_forward` - Forward ports (returns command to run)
+* `kubectl_context` - Manage kubectl contexts
+* `kubectl_top` - Show resource usage (CPU/memory)
+* `kubectl_create` - Create resources
+
+=== Helm (14 tools)
+Kubernetes package manager:
+
+* `helm_install` - Install charts
+* `helm_upgrade` - Upgrade releases
+* `helm_uninstall` - Uninstall releases
+* `helm_list` - List releases
+* `helm_status` - Get release status
+* `helm_history` - View release history
+* `helm_rollback` - Rollback to previous revision
+* `helm_repo_add` - Add chart repositories
+* `helm_repo_list` - List repositories
+* `helm_repo_update` - Update repository cache
+* `helm_search` - Search for charts
+* `helm_show` - Show chart information
+* `helm_template` - Render templates locally
+* `helm_get` - Get release information
+
+=== Kustomize (8 tools)
+Kubernetes configuration management:
+
+* `kustomize_build` - Build kustomization into manifests
+* `kustomize_apply` - Build and apply to cluster
+* `kustomize_create` - Create kustomization.yaml
+* `kustomize_edit_add` - Add resources/patches/configmaps
+* `kustomize_edit_set` - Set namespace/nameprefix/image
+* `kustomize_edit_remove` - Remove items
+* `kustomize_cfg` - Run cfg commands (cat, count, grep, tree)
+* `kustomize_version` - Show version
+
+== Requirements
+
+* https://deno.land/[Deno] runtime
+* https://kubernetes.io/docs/reference/kubectl/[kubectl] CLI
+* https://helm.sh/[Helm] CLI (optional)
+* https://kustomize.io/[Kustomize] CLI (optional)
+
+== Installation
+
+[source,bash]
+----
+git clone https://github.com/hyperpolymath/poly-k8s-mcp
+cd poly-k8s-mcp
+npm install
+npm run build
+----
+
+== Usage
+
+Run as MCP server:
+
+[source,bash]
+----
+deno run --allow-run --allow-read --allow-env --allow-write main.js
+----
+
+Or use the systemd service:
+
+[source,bash]
+----
+systemctl --user enable poly-k8s-mcp
+systemctl --user start poly-k8s-mcp
+----
+
+== License
+
+MIT
