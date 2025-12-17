@@ -252,8 +252,9 @@ let handleToolCall = async (name: string, args: JSON.t): result<string, string> 
       if filename !== "" {
         await runKubectl(args)
       } else {
-        // Write manifest to temp file and apply
-        let tmpFile = "/tmp/kubectl-manifest.yaml"
+        // Write manifest to unique temp file and apply (secure random suffix)
+        let randomSuffix = Int.toString(Int.fromFloat(Math.random() *. 1000000000.0))
+        let tmpFile = `/tmp/kubectl-manifest-${randomSuffix}.yaml`
         await Deno.writeTextFile(tmpFile, manifest)
         let result = await runKubectl(Array.concat(args->Array.filter(a => a !== "-"), ["-f", tmpFile]))
         result

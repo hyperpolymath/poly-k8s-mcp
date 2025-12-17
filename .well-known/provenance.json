@@ -2,7 +2,7 @@
   "@context": "https://w3id.org/provenance/v1",
   "@type": "SoftwareSourceCode",
   "name": "poly-k8s-mcp",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "author": {
     "@type": "Organization",
     "name": "hyperpolymath",
@@ -11,7 +11,7 @@
   "license": "MIT",
   "repository": "https://github.com/hyperpolymath/poly-k8s-mcp",
   "dateCreated": "2025-12-16",
-  "dateModified": "2025-12-16",
+  "dateModified": "2025-12-17",
   "programmingLanguage": ["ReScript", "JavaScript"],
   "runtimePlatform": "Deno",
   "standards": ["RSR", "MCP", "Consent-Aware HTTP"],
