@@ -5,9 +5,9 @@
 // poly-k8s-mcp - Kubernetes orchestration MCP server
 // Adapters: kubectl, helm, kustomize
 
-import * as Kubectl from "./lib/es6/src/adapters/Kubectl.js";
-import * as Helm from "./lib/es6/src/adapters/Helm.js";
-import * as Kustomize from "./lib/es6/src/adapters/Kustomize.js";
+import * as Kubectl from "./lib/es6/src/adapters/Kubectl.res.js";
+import * as Helm from "./lib/es6/src/adapters/Helm.res.js";
+import * as Kustomize from "./lib/es6/src/adapters/Kustomize.res.js";
 
 const SERVER_INFO = {
   name: "poly-k8s-mcp",
