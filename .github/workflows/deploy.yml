@@ -1,0 +1,32 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+name: Deploy to Deno Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions: read-all
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@b4ffde65f46336ab88eb53be808477a3936bae11 # v4
+      - name: Install Deno
+        uses: denoland/setup-deno@e95548e56dfa95d4e1a28d6f422fafe75c4c26fb # v2
+        with:
+          deno-version: v2.x
+      - name: Lint and check
+        run: |
+          deno lint --ignore=node_modules,lib
+          deno check main.js
+      - name: Deploy to Deno Deploy
+        uses: denoland/deployctl@7bded90d0d09cd99bbfb513966146315db97618b # v1
+        with:
+          project: polyglot-k8s-mcp
+          entrypoint: main.js
+          root: .
