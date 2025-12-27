@@ -20,7 +20,7 @@ jobs:
       - name: Install npm dependencies
         run: |
           npm init -y
-          npm install @rescript/runtime
+          npm install @rescript/runtime @modelcontextprotocol/sdk
       - name: Install deployctl
         run: deno install -gArf jsr:@deno/deployctl
       - name: Deploy to Deno Deploy
