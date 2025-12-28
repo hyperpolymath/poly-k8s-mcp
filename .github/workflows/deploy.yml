@@ -17,8 +17,14 @@ jobs:
         uses: denoland/setup-deno@e95548e56dfa95d4e1a28d6f422fafe75c4c26fb # v2
         with:
           deno-version: v2.x
-      - name: Bundle dependencies
-        run: deno bundle --node-modules-dir main.js -o bundle.js
+      - name: Install Node.js
+        uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4
+        with:
+          node-version: 22
+      - name: Install npm dependencies to node_modules
+        run: npm install @rescript/runtime @modelcontextprotocol/sdk
+      - name: Bundle with resolved node_modules
+        run: deno bundle main.js -o bundle.js
       - name: Install deployctl
         run: deno install -gArf jsr:@deno/deployctl
       - name: Deploy to Deno Deploy
