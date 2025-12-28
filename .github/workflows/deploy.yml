@@ -17,11 +17,11 @@ jobs:
         uses: denoland/setup-deno@e95548e56dfa95d4e1a28d6f422fafe75c4c26fb # v2
         with:
           deno-version: v2.x
-      - name: Vendor dependencies
-        run: deno vendor main.js
+      - name: Bundle dependencies
+        run: deno bundle --node-modules-dir main.js -o bundle.js
       - name: Install deployctl
         run: deno install -gArf jsr:@deno/deployctl
       - name: Deploy to Deno Deploy
-        run: deployctl deploy --project=polyglot-k8s-mcp --prod --import-map=vendor/import_map.json main.js
+        run: deployctl deploy --project=polyglot-k8s-mcp --prod --entrypoint=bundle.js
         env:
           DENO_DEPLOY_TOKEN: ${{ secrets.DENO_DEPLOY_TOKEN }}
