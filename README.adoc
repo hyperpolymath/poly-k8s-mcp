@@ -62,12 +62,53 @@ Kubernetes configuration management:
 * `kustomize_cfg` - Run cfg commands (cat, count, grep, tree)
 * `kustomize_version` - Show version
 
+== Runtime Mode
+
+[IMPORTANT]
+====
+**Local-Agent Mode Only** — This MCP server wraps CLI tools (`kubectl`, `helm`, `kustomize`) and requires `--allow-run` permission. It cannot run in Hosted-HTTP mode.
+====
+
+|===
+|Mode |Supported |Notes
+
+|Local-Agent (stdio)
+|✓ Yes
+|Primary mode. Runs locally, executes CLI commands.
+
+|Hosted-HTTP
+|✗ No
+|Cannot wrap CLI tools from a hosted environment.
+|===
+
+== Security Boundary
+
+[WARNING]
+====
+This MCP server executes external CLI commands using Deno's `--allow-run` permission. The security boundary is your local kubectl/helm/kustomize configuration.
+====
+
+**What this means:**
+
+* Commands run with your current kubeconfig and credentials
+* The MCP client (e.g., Claude) can perform any kubectl/helm/kustomize action you can
+* Cluster access is determined by your local `~/.kube/config`
+* No additional authentication layer between MCP and the CLIs
+
+**Recommendations:**
+
+1. Use a restricted kubeconfig for MCP access if possible
+2. Consider namespace-scoped RBAC roles
+3. Avoid running this MCP server with cluster-admin credentials
+4. Review tool calls before approving in your MCP client
+
 == Requirements
 
-* https://deno.land/[Deno] runtime
+* https://deno.land/[Deno] runtime (v2.0+)
 * https://kubernetes.io/docs/reference/kubectl/[kubectl] CLI
-* https://helm.sh/[Helm] CLI (optional)
-* https://kustomize.io/[Kustomize] CLI (optional)
+* https://helm.sh/[Helm] CLI (optional, for Helm tools)
+* https://kustomize.io/[Kustomize] CLI (optional, for Kustomize tools)
+* Valid kubeconfig (`~/.kube/config` or `KUBECONFIG` env var)
 
 == Installation
 
@@ -75,13 +116,11 @@ Kubernetes configuration management:
 ----
 git clone https://github.com/hyperpolymath/poly-k8s-mcp
 cd poly-k8s-mcp
-npm install
-npm run build
 ----
 
 == Usage
 
-Run as MCP server:
+Run as MCP server (Local-Agent mode):
 
 [source,bash]
 ----
@@ -95,6 +134,47 @@ Or use the systemd service:
 systemctl --user enable poly-k8s-mcp
 systemctl --user start poly-k8s-mcp
 ----
+
+== Smoke Test
+
+Verify the server is working correctly:
+
+[source,bash]
+----
+# 1. Check Deno can run the server
+deno run --allow-run --allow-read --allow-env --allow-write main.js &
+SERVER_PID=$!
+
+# 2. Verify kubectl is accessible
+kubectl version --client
+
+# 3. Test basic tool (requires cluster access)
+# The MCP client should be able to call kubectl_get
+
+# 4. Cleanup
+kill $SERVER_PID
+----
+
+**Expected smoke test results:**
+
+|===
+|Check |Expected Result
+
+|Server starts
+|No errors, listens on stdio
+
+|kubectl available
+|`kubectl version --client` returns version
+
+|kubectl_get works
+|Returns pod list (if cluster accessible)
+
+|Helm available (optional)
+|`helm version` returns version
+
+|Kustomize available (optional)
+|`kustomize version` returns version
+|===
 
 == License
 
