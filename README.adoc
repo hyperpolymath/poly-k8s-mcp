@@ -1,10 +1,13 @@
 = poly-k8s-mcp
+
+image:https://img.shields.io/badge/License-MPL_2.0-blue.svg[MPL-2.0,link="https://opensource.org/licenses/MPL-2.0"]
+image:https://img.shields.io/badge/Philosophy-Palimpsest-purple.svg[Palimpsest,link="https://github.com/hyperpolymath/palimpsest-licence"]
+
 :toc:
 :toc-placement!:
 
 image:https://img.shields.io/badge/RSR-compliant-gold[RSR Compliant,link=https://github.com/hyperpolymath/rhodium-standard-repositories]
 image:https://img.shields.io/badge/MCP-server-blue[MCP Server,link=https://github.com/modelcontextprotocol]
-image:https://img.shields.io/badge/license-MIT-green[License]
 
 Unified MCP server for Kubernetes orchestration. Provides Model Context Protocol tools for managing Kubernetes clusters through kubectl, Helm, and Kustomize.
 
