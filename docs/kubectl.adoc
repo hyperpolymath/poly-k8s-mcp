@@ -1,0 +1,325 @@
+// SPDX-License-Identifier: MIT
+= Kubectl Adapter Documentation
+
+Complete reference for kubectl tools in poly-k8s-mcp.
+
+== Tool Reference
+
+=== kubectl_get
+
+Get resources from the cluster.
+
+**Parameters:**
+* `resource` (required): Resource type (pods, deployments, services, etc.)
+* `name` (optional): Specific resource name
+* `namespace` (optional): Kubernetes namespace (default: current context namespace)
+* `all_namespaces` (optional): Get resources across all namespaces
+* `output` (optional): Output format (json, yaml, wide, name)
+* `selector` (optional): Label selector (e.g., app=nginx)
+
+**Example:**
+[source,json]
+----
+{
+  "resource": "pods",
+  "namespace": "default",
+  "output": "json"
+}
+----
+
+=== kubectl_describe
+
+Show detailed information about a resource.
+
+**Parameters:**
+* `resource` (required): Resource type
+* `name` (required): Resource name
+* `namespace` (optional): Kubernetes namespace
+
+**Example:**
+[source,json]
+----
+{
+  "resource": "pod",
+  "name": "nginx-pod",
+  "namespace": "default"
+}
+----
+
+=== kubectl_logs
+
+View container logs.
+
+**Parameters:**
+* `pod` (required): Pod name
+* `namespace` (optional): Kubernetes namespace
+* `container` (optional): Container name (for multi-container pods)
+* `follow` (optional): Stream logs (boolean)
+* `tail` (optional): Number of lines from end
+* `since` (optional): Show logs since duration (e.g., "1h", "10m")
+* `previous` (optional): Show previous container logs
+
+**Example:**
+[source,json]
+----
+{
+  "pod": "nginx-pod",
+  "namespace": "default",
+  "tail": 100
+}
+----
+
+=== kubectl_apply
+
+Apply manifests to the cluster.
+
+**Parameters:**
+* `filename` (optional): Path to manifest file
+* `manifest` (optional): Inline YAML/JSON manifest
+* `namespace` (optional): Override namespace
+
+**Example:**
+[source,json]
+----
+{
+  "manifest": "apiVersion: v1\nkind: Pod\nmetadata:\n  name: test",
+  "namespace": "default"
+}
+----
+
+=== kubectl_delete
+
+Delete resources from the cluster.
+
+**Parameters:**
+* `resource` (required): Resource type
+* `name` (optional): Resource name
+* `filename` (optional): Delete from manifest file
+* `namespace` (optional): Kubernetes namespace
+* `all` (optional): Delete all resources of type
+* `selector` (optional): Label selector
+* `force` (optional): Force deletion
+* `grace_period` (optional): Grace period in seconds
+
+**Example:**
+[source,json]
+----
+{
+  "resource": "pod",
+  "name": "nginx-pod",
+  "namespace": "default"
+}
+----
+
+=== kubectl_exec
+
+Execute command in a container.
+
+**Parameters:**
+* `pod` (required): Pod name
+* `command` (required): Command to execute (array of strings)
+* `namespace` (optional): Kubernetes namespace
+* `container` (optional): Container name
+* `stdin` (optional): Pass stdin (boolean)
+* `tty` (optional): Allocate TTY (boolean)
+
+**Example:**
+[source,json]
+----
+{
+  "pod": "nginx-pod",
+  "command": ["ls", "-la", "/app"],
+  "namespace": "default"
+}
+----
+
+=== kubectl_scale
+
+Scale deployments or replicasets.
+
+**Parameters:**
+* `resource` (required): Resource type (deployment, replicaset, statefulset)
+* `name` (required): Resource name
+* `replicas` (required): Desired replica count
+* `namespace` (optional): Kubernetes namespace
+
+**Example:**
+[source,json]
+----
+{
+  "resource": "deployment",
+  "name": "nginx",
+  "replicas": 3,
+  "namespace": "default"
+}
+----
+
+=== kubectl_rollout
+
+Manage rollouts.
+
+**Parameters:**
+* `action` (required): Action (status, history, undo, restart, pause, resume)
+* `resource` (required): Resource type (deployment, daemonset, statefulset)
+* `name` (required): Resource name
+* `namespace` (optional): Kubernetes namespace
+* `revision` (optional): Revision number (for undo/history)
+
+**Example:**
+[source,json]
+----
+{
+  "action": "status",
+  "resource": "deployment",
+  "name": "nginx",
+  "namespace": "default"
+}
+----
+
+=== kubectl_port_forward
+
+Forward local port to pod port.
+
+**Parameters:**
+* `pod` (required): Pod name
+* `local_port` (required): Local port
+* `remote_port` (required): Pod port
+* `namespace` (optional): Kubernetes namespace
+
+**Note:** Returns command to run in terminal, does not maintain connection.
+
+**Example:**
+[source,json]
+----
+{
+  "pod": "nginx-pod",
+  "local_port": 8080,
+  "remote_port": 80,
+  "namespace": "default"
+}
+----
+
+=== kubectl_context
+
+Manage kubectl contexts.
+
+**Parameters:**
+* `action` (required): Action (list, current, use, rename, delete)
+* `context` (optional): Context name (for use/rename/delete)
+* `new_name` (optional): New name (for rename)
+
+**Example:**
+[source,json]
+----
+{
+  "action": "use",
+  "context": "minikube"
+}
+----
+
+=== kubectl_top
+
+Show resource usage.
+
+**Parameters:**
+* `resource` (required): Resource type (nodes, pods)
+* `name` (optional): Specific resource name
+* `namespace` (optional): Kubernetes namespace (for pods)
+* `all_namespaces` (optional): Check all namespaces
+
+**Example:**
+[source,json]
+----
+{
+  "resource": "pods",
+  "namespace": "default"
+}
+----
+
+=== kubectl_create
+
+Create resources.
+
+**Parameters:**
+* `resource` (required): Resource type
+* `name` (optional): Resource name
+* `image` (optional): Container image (for pods)
+* `dry_run` (optional): Dry run mode
+* `output` (optional): Output format
+
+**Example:**
+[source,json]
+----
+{
+  "resource": "deployment",
+  "name": "nginx",
+  "image": "nginx:latest"
+}
+----
+
+== Error Handling
+
+All tools return results in this format:
+
+**Success:**
+[source,json]
+----
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "<command output>"
+    }
+  ]
+}
+----
+
+**Error:**
+[source,json]
+----
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "Error: <error message>"
+    }
+  ],
+  "isError": true
+}
+----
+
+== Best Practices
+
+1. **Always specify namespace** - Avoids unexpected results
+2. **Use selectors for bulk operations** - More flexible than names
+3. **Check context before operations** - Use `kubectl_context current`
+4. **Use `dry_run` for testing** - Verify changes before applying
+5. **Tail logs instead of full dump** - Use `tail` parameter
+6. **Use `output: "json"` for programmatic parsing** - Structured data
+
+== Common Workflows
+
+=== Deploy and Monitor
+
+1. `kubectl_apply` - Deploy manifest
+2. `kubectl_get` - Check pod status
+3. `kubectl_describe` - Investigate issues
+4. `kubectl_logs` - View application logs
+
+=== Debugging Failed Pod
+
+1. `kubectl_get` - Find pod name
+2. `kubectl_describe` - Check events
+3. `kubectl_logs` - View logs (with `previous: true` if restarted)
+4. `kubectl_exec` - Shell into container if running
+
+=== Rolling Update
+
+1. `kubectl_rollout status` - Check current state
+2. `kubectl_apply` - Apply new manifest
+3. `kubectl_rollout status` - Monitor rollout
+4. `kubectl_rollout undo` - Rollback if needed
+
+== License
+
+MIT
