@@ -1,4 +1,4 @@
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: PMPL-1.0-or-later
 = Kubectl Adapter Documentation
 
 Complete reference for kubectl tools in poly-k8s-mcp.
