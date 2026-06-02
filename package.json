@@ -10,7 +10,7 @@
     "dev": "rescript build -w"
   },
   "author": "Jonathan D.A. Jewell",
-  "license": "MIT",
+  "license": "MPL-2.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/hyperpolymath/poly-k8s-mcp.git"
