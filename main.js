@@ -1,5 +1,5 @@
 #!/usr/bin/env -S deno run --allow-run --allow-read --allow-env --allow-write
-// SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MPL-2.0
 // SPDX-FileCopyrightText: 2025 Jonathan D.A. Jewell
 
 // poly-k8s-mcp - Kubernetes orchestration MCP server
