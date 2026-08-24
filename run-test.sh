@@ -1,5 +1,5 @@
 #!/bin/bash
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: MPL-2.0
 # Test script for poly-k8s-mcp
 
 export ASDF_DENO_VERSION=1.45.0
