@@ -8,7 +8,7 @@ workflows:
         - 'github/codeql-action@v4.34.0'
     '.github/workflows/dogfood-gate.yml':
         - 'actions/checkout@v4.3.1'
-        - 'hyperpolymath/a2ml-ecosystem@main'
+        - 'hyperpolymath/deed-ecosystem@main'
         - 'hyperpolymath/k9-ecosystem@main'
     '.github/workflows/governance.yml': []
     '.github/workflows/hypatia-scan.yml': []
@@ -45,7 +45,7 @@ dependencies:
         commit: 'sha1-ff98106e4c7b2bc287b24eaf42907196329070c7'
         owner_id: 90395851
         repo_id: 242854909
-    'hyperpolymath/a2ml-ecosystem@main':
+    'hyperpolymath/deed-ecosystem@main':
         ref: 'main'
         commit: 'sha1-ed83d6927e8fb21431e403dbf6d7a4af96772746'
         owner_id: 6759885
