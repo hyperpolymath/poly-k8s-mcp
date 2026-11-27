@@ -5,7 +5,7 @@ version: 'v0.0.3'
 workflows:
     '.github/workflows/codeql.yml':
         - 'actions/checkout@v7.0.1'
-        - 'github/codeql-action@v4.39.1'
+        - 'github/codeql-action@v4.39.4'
     '.github/workflows/dogfood-gate.yml':
         - 'actions/checkout@v7.0.1'
         - 'hyperpolymath/deed-ecosystem@main'
@@ -27,9 +27,9 @@ dependencies:
         commit: 'sha1-3d3c42e5aac5ba805825da76410c181273ba90b1'
         owner_id: 44036562
         repo_id: 197814629
-    'github/codeql-action@v4.39.1':
-        ref: 'v4.39.1'
-        commit: 'sha1-9b3254085494b55a0f7c4c2b3d2d52cc712ce370'
+    'github/codeql-action@v4.39.4':
+        ref: 'v4.39.4'
+        commit: 'sha1-1bd86f2fdb4b86187fa4059f16f31a3202acc9ea'
         owner_id: 9919
         repo_id: 259445878
     'hyperpolymath/deed-ecosystem@main':
